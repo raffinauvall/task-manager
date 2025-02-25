@@ -1,35 +1,61 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState("");
 
+  const addTask = () => {
+    if(!input.trim()) return;
+    setTasks([...tasks, {text:input, completed:false}]);
+    setInput("");
+  }
+
+  const toggleTask = (index) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task, i) =>
+        i === index ? { text: task.text, completed: !task.completed } : task
+      )
+    );
+  };
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="flex justify-center items-center  min-h-screen">
+      <div className="bg-white p-5 rounded-2xl shadow-md">
+        <h2 className="text-black text-2xl text-left font-bold mb-2">
+          Task Manager
+        </h2>
+        <input
+          className="border me-3 text-black p-2 rounded-lg"
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Tambah task..."
+        />
+        <button onClick={addTask}>Tambah</button>
+
+        <ul className="text-black">
+          {tasks.map((task, index) => (
+            <li
+              key={index}
+              className={`flex items-center gap-3 p-2 rounded-lg mt-1 transition-all duration-300 ${
+                task.completed
+                  ? "border-2 border-blue-500 bg-blue-100"
+                  : "border border-transparent"
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked="{task.completed}"
+                onChange={() => toggleTask(index)}
+                className="w-5 h-5 white border-1 cursor-pointer rounded-md"
+              />
+              {task.text}
+            </li>
+          ))}
+        </ul>
       </div>
-      <h1 className='text-red-500'>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
 export default App
