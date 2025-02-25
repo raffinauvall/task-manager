@@ -19,7 +19,10 @@ function App() {
     );
   };
   return (
-    <div className="flex justify-center items-center  min-h-screen">
+    <div className="">
+      <h2 className="text-black font-bold mb-3 text-xl">
+        Selamat Datang, admin
+      </h2>
       <div className="bg-white p-5 rounded-2xl shadow-md">
         <h2 className="text-black text-2xl text-left font-bold mb-2">
           Task Manager
@@ -31,7 +34,12 @@ function App() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Tambah task..."
         />
-        <button onClick={addTask}>Tambah</button>
+        <button
+          className="!bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+          onClick={addTask}
+        >
+          Tambah
+        </button>
 
         <ul className="text-black">
           {tasks.map((task, index) => (
